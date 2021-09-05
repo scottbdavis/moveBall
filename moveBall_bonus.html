@@ -1,0 +1,240 @@
+
+  <div id="ball" style="
+  z-index:5;
+  position:absolute;
+  left:100px;
+  top:50px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:green"></div>
+
+  <div id="ball2" style="
+  z-index:5;
+  position:absolute;
+  left:50px;
+  top:50px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:green"></div>
+
+<div id="ball3" style="
+z-index:5;
+position:absolute;
+left:100px;
+top:100px;
+width:75px;
+height:50px;
+border-radius:50%;
+background:green"></div>
+
+<script>
+
+let velocity = 5;
+let position = 0;
+
+
+var velocityX = 5;
+var velocityY = 5;
+var positionX = 0;
+var positionY = 0;
+var Xmin = 0;
+var Xmax = 300;
+var Ymin = 0; 
+var Ymax = 300;
+var ball2 = document.getElementById('ball2');
+var ball3 = document.getElementById('ball3');
+var reverse = false;
+
+// YOUR CODE 
+function moveBallPos() {
+  positionX = positionX + velocityX;
+    positionY = positionY + velocityY;
+    ball.style.left = positionX + "px";
+    ball.style.top = positionY + "px";
+    console.log(ball.style.left);
+    console.log(ball.style.top);
+    ball2.style.left = (positionX) + "px";
+    ball2.style.top = (positionY) + "px";
+    ball.style.background="orange";
+    ball2.style.background="purple";
+    ball.style.height = 100;
+    ball.style.width = 150;
+}
+function moveBallNeg() {
+  positionX = positionX - velocityX;
+    positionY= positionY - velocityY;
+    ball.style.left = positionX + "px";
+    ball.style.top = positionY + "px";
+    console.log(ball.style.left); 
+    console.log(ball.style.top); 
+    ball2.style.left = (positionX*4) + "px";
+    ball2.style.top = (positionY*4) + "px";
+    ball.style.background= "blue";
+    ball2.style.background="red";
+    ball.style.height = 200;
+    ball.style.width = 350;
+}
+function moveBall() {
+  if(position >= 0 && position <=500 && velocity >0) {
+    position = position + velocity;
+ball3.style.left = position + "px";
+ball3.style.zIndex=6;
+ball3.style.background= "brown";
+    console.log(ball3.style.left);
+  } else if (position <0){
+    velocity = 5;
+    position = position + velocity;
+    ball3.style.left = position + "px";
+    console.log(ball3.style.left); 
+  } else {
+    velocity= -5;
+    position = position + velocity;
+    ball3.style.left = position + "px";
+    ball3.style.zIndex=3;
+    ball3.style.background= "green";
+    console.log(ball3.style.left); 
+  } 
+  }
+setInterval(moveBall,20);
+
+function moveBallBounce() {
+  //starting condition reverse is false and positions are less than max - move down-right
+  if ((reverse ===false) && ((positionX >= Xmin & positionX <=Xmax) || (positionY >= Ymin & positionY <=Ymax ))) {
+   moveBallPos(); 
+  }
+//    //now we reach maxX or maxY values but reverse is still false first time through
+//    //after else has run and reverse = true - IF positions still greater than 0 MOVE up-left
+//    //next time through - reverse is still true - stays true until X or Y become less than 0 Then have to change back to false
+else if ((positionX >=Xmin) && (positionY >=Ymin)) {
+moveBallNeg();
+var velocityX = 1;
+var velocityY = 1;
+reverse = true;
+// first time over max we go to this one and change reverse to TRUE
+} else if ((positionX <= Xmin) || (positionY <= Ymin)) {
+moveBallPos();
+var velocityX = 3;
+var velocityY = 3;
+reverse=false;
+} 
+}
+setInterval(moveBallBounce, 50);
+// // ----------------
+</script>
+</body>
+</html>
+<!-- var velocityX = 5;
+var velocityY = 3;
+var positionX = 0;
+var positionY = 0;
+var ball = document.getElementById('ball'); -->
+<!-- THIS ONE WORKS for diagonal bounce: function moveBallBounce() {
+  //first condition tests whether ball is within boundaries and velocity is positive - if so move down to right
+  if((positionX >= 0 && positionX <=200 && velocityX >0) && (positionY >=0 && positionY <=200 && velocityY >0)) {
+    positionX = positionX + velocityX;
+    positionY = positionY + velocityY;
+    ball.style.left = positionX + "px";
+    ball.style.top = positionY + "px";
+    console.log(ball.style.left);
+    console.log(ball.style.top);
+    //if the position is out of left bounds for X, then set velocity positive to move to right
+  } else if (positionX <0){
+    velocityX = 5;
+      positionX = positionX + velocityX;
+      ball.style.left = positionX + "px";
+      console.log(ball.style.left); 
+      // velocityY = 3;
+      //  positionY = positionY + velocityY;
+      //  ball.style.top = positionX + "px";
+      //  console.log(ball.style.top);    
+  //if position is out of bounds top for y, then set  direction to positive 
+  } else if(positionY <0) {
+    // velocityX = 5;
+    //   positionX = positionX + velocityX;
+    //   ball.style.left = positionX + "px";
+    //   console.log(ball.style.left); 
+      velocityY = 3;
+       positionY = positionY + velocityY;
+       ball.style.top = positionX + "px";
+       console.log(ball.style.top);     
+  }
+  else {
+    velocityX= -5;
+    velocityY= -3;
+    positionX = positionX + velocityX;
+    positionY= positionY + velocityY;
+    ball.style.left = positionX + "px";
+    ball.style.top = positionY + "px";
+    console.log(ball.style.left); 
+    console.log(ball.style.left); 
+  } 
+}
+function moveBallBounce() { -->
+  <!-- if((positionX >= 0 && positionX <=200 && velocityX >0) && (positionY >=0 && positionY <=200 && velocityY >0)) {
+    positionX = positionX + velocityX;
+    positionY = positionY + velocityY;
+    ball.style.left = positionX + "px";
+    ball.style.top = positionY + "px";
+    console.log(ball.style.left);
+    console.log(ball.style.top);
+  } else if (positionX <0){
+    velocityX = 5;
+      positionX = positionX + velocityX;
+      ball.style.left = positionX + "px";
+      console.log(ball.style.left); 
+      velocityY = 3;
+       positionY = positionY + velocityY;
+       ball.style.top = positionX + "px";
+       console.log(ball.style.top);      
+  } else if(positionY <0) {
+    velocityX = 5;
+      positionX = positionX + velocityX;
+      ball.style.left = positionX + "px";
+      console.log(ball.style.left); 
+      velocityY = 3;
+       positionY = positionY + velocityY;
+       ball.style.top = positionX + "px";
+       console.log(ball.style.top);     
+  }
+  else {
+    velocityX= -5;
+    velocityY= -3;
+    positionX = positionX + velocityX;
+    positionY= positionY + velocityY;
+    ball.style.left = positionX + "px";
+    ball.style.top = positionY + "px";
+    console.log(ball.style.left); 
+    console.log(ball.style.left); 
+  } 
+} -->  
+<!-- function moveBallBounce() {
+  if((positionX >= 0 && positionX <=200 && velocityX >0) || (positionY >=0 && positionY <=200 && velocityY >0)) {
+    positionX = positionX + velocityX;
+    positionY = positionY + velocityY;
+    ball.style.left = positionX + "px";
+    ball.style.top = positionY + "px";
+    console.log(ball.style.left);
+    console.log(ball.style.top);
+  } else if (positionX <0 ){
+    velocityX = 5;
+      positionX = positionX + velocityX;
+      ball.style.left = positionX + "px";
+      console.log(ball.style.left); 
+  } else if (positionY <0){
+       velocityY = 3;
+       positionY = positionY + velocityY;
+       ball.style.top = positionX + "px";
+       console.log(ball.style.top);
+  } else {
+    velocityX= -5;
+    velocityY= -3;
+    positionX = positionX + velocityX;
+    positionY= positionY + velocityY;
+    ball.style.left = positionX + "px";
+    ball.style.top = positionY + "px";
+    console.log(ball.style.left); 
+    console.log(ball.style.left); 
+  } 
+} -->
